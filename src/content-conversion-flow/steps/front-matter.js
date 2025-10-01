@@ -16,11 +16,7 @@ module.exports = function (structure, pageDetails, destinationDir, md, callback)
     'title: "' + pageDetails.title + '"',
     'lang: en',
     'layout: page',
-    'keywords: LoopBack',
-    'tags:',
-    'sidebar: lb2_sidebar',
     'permalink: ' + pageDetails.destinationFileLink,
-    'summary:',
     '---'
   ].join('\n');
 
