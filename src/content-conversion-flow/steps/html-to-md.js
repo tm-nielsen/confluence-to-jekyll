@@ -14,8 +14,10 @@ var mdConverter = require('../md-converter');
  */
 module.exports = function (structure, pageDetails, destinationDir, contentElt, callback) {
   var htmlStr = contentElt.html()
-    , md = mdConverter(structure, pageDetails, htmlStr);
-
-  callback(null, structure, pageDetails, destinationDir, md);
-
+  
+  if (htmlStr)
+  {
+    var md = mdConverter(structure, pageDetails, htmlStr);
+    callback(null, structure, pageDetails, destinationDir, md);
+  }
 };
