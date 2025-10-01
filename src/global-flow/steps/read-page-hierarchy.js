@@ -27,6 +27,7 @@ module.exports = function (sourceDir, destinationDir, callback) {
     , path = require('path')
 
     , fileIO = require('../../utils/file-io')
+    , uris = require('../../utils/uris')
     , pageStructure = {
       files: [],
       linksMap: {},
@@ -46,7 +47,12 @@ module.exports = function (sourceDir, destinationDir, callback) {
 
     recursiveParsePageDetails(doc('.pageSection>ul>li'), pageStructure.hierarchy);
 
-    callback(null, pageStructure, destinationDir);
+    var spaceTitle = uris.format(doc('title').text().match(/\((.*)\)/)[1]);
+    destinationDir = path.join(destinationDir, spaceTitle);
+
+    console.log(`Converting ${spaceTitle}, sending results to ${destinationDir}`);
+
+    callback(null, pageStructure, destinationDir, spaceTitle);
   });
 
 
@@ -57,7 +63,7 @@ module.exports = function (sourceDir, destinationDir, callback) {
       , subItems = itemElt.find('>ul>li')
 
       , pageDetails = {
-        title: link.text().replace(/\s+/g, ' '),
+        title: uris.format(link.text()),
         baseFileName: baseFileName,
         path: path.join(sourceDir, baseFileName),
         parent: parentPage

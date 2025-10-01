@@ -10,18 +10,18 @@ var path = require('path');
  * @param destinationDir
  * @param callback
  */
-module.exports = function (pageStructure, destinationDir, callback) {
+module.exports = function (pageStructure, destinationDir, spaceTitle, callback) {
 
   // https://github.com/strongloop/loopback.io/wiki/Conversion-rules#file-names
   pageStructure.files.forEach(function (pageDetails) {
     var fileVersionMatch = pageDetails.baseFileName.match(/(.*)_\d+\..*$/)
       , name = fileVersionMatch ? fileVersionMatch[1] : pageDetails.title
-      , destinationFileName = name.replace(/[^a-z0-9\.]+/gi, '-');
+      , destinationFileName = name === spaceTitle? "Index": name;
 
     pageDetails.destinationFileName = path.normalize(destinationFileName + '.md');
     pageDetails.destinationFileHtml = path.join(destinationFileName + '.html');
-    pageDetails.destinationFileLink = path.join('/doc', 'en', 'lb2', destinationFileName + '.html');
-    pageDetails.destinationFilePath = path.join(destinationDir, 'pages', 'en', 'lb2', pageDetails.destinationFileName);
+    pageDetails.destinationFileLink = [spaceTitle, destinationFileName].join('/');
+    pageDetails.destinationFilePath = path.join(destinationDir, pageDetails.destinationFileName);
   });
 
   callback(null, pageStructure, destinationDir);
