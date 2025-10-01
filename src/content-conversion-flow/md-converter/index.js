@@ -8,6 +8,7 @@ function mdConverter(structure, pageDetails, htmlStr) {
       require('./converters/a-tag'),
       require('./converters/code-block'),
       require('./converters/img-tag'),
+      require('./converters/details'),
       require('./converters/info-macros-conversion'),
       require('./converters/review-comments'),
       require('./converters/keep-content-only'),
