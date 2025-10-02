@@ -23,11 +23,15 @@ module.exports = function (structure, pageDetails, destinationDir, contentElt, c
     .each(function () {
       var imgElt = $(this)
         , src = imgElt.attr('src')
-        , fileBaseName = path.basename(src)
+        , fileBaseName = path.basename(src);
+
+      var fileQuery;
+      var fileNameParts = fileBaseName.split("?");
+      [fileBaseName, fileQuery] = fileBaseName.split("?");
 
       // https://github.com/strongloop/loopback.io/wiki/Conversion-rules
       // move all pictures to the same folder
-        , updatedImageSrc = path.join('images', fileBaseName)
+      var updatedImageSrc = path.join('images', fileBaseName)
 
         , sourceFilePath = path.join(pageFileDirName, src)
         , destinationFilePath = path.join(destinationDir, updatedImageSrc)
@@ -40,6 +44,7 @@ module.exports = function (structure, pageDetails, destinationDir, contentElt, c
       });
 
       // absolute path on template
+      if (fileQuery) fileBaseName += "?" + fileQuery;
       imgElt.attr('src', fileBaseName);
     });
 
