@@ -63,7 +63,7 @@ module.exports = function (sourceDir, destinationDir, callback) {
       , subItems = itemElt.find('>ul>li')
 
       , pageDetails = {
-        title: uris.format(link.text()),
+        title: link.text().replace(/\s+/g, ' '),
         baseFileName: baseFileName,
         path: path.join(sourceDir, baseFileName),
         parent: parentPage
